@@ -1,5 +1,6 @@
 #!/bin/bash
 #
+#
 
 ##################################################################################
 # The contents of this file are subject to the Common Public Attribution
@@ -14,23 +15,16 @@
 # WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
 # the specific language governing rights and limitations under the License.
 # 
-# The Original Code is OpenEMM.
+# The Original Code is an addition to OpenEMM.
 # The Original Developer is the Initial Developer.
-# The Initial Developer of the Original Code is AGNITAS AG. All portions of
-# the code written by AGNITAS AG are Copyright (c) 2007 AGNITAS AG. All Rights
+# The Initial Developer of the Original Code is Anton Melser. All portions of
+# the code written by Anton Melser are Copyright (c) 2013 Anton Melser. All Rights
 # Reserved.
 # 
-# Contributor(s): AGNITAS AG., Anton Melser
+# Contributor(s): Anton Melser
 ##################################################################################
 #
-. $HOME/bin/scripts/config.sh
-#
-if [ $# -eq 2 ]; then
-    bnccnt=$1
-    nbdays=$2
-else
-    bnccnt=7
-    nbdays=30
-fi
 
-exec $HOME/bin/scripts/softbounce.py --bnccnt $bnccnt --nbdays $nbdays
+. $HOME/bin/scripts/config.sh
+
+exec $HOME/bin/scripts/external_unsubscribes.py $1
