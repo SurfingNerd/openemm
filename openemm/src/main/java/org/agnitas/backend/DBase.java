@@ -140,6 +140,7 @@ public class DBase {
         public DataSource newDataSource (String driver, String connect, String login, String password) {
             return new DriverManagerDataSource (connect, login, password);
         }
+        
         public synchronized DataSource request (String driver, String connect, String login, String password) throws ClassNotFoundException {
             DataSource      rc;
             String          key = driver + ";" + connect + ";" + login + ";*";
@@ -184,14 +185,27 @@ public class DBase {
         }
     }
 
-    private static DBDatasourcePooled dsPool = new DBDatasourcePooled ();
+    private static DBDatasourcePooled dsPool; 
+    private static DBDatasource dsNonPool;
+    
     public DBase (Data nData) throws Exception {
         data = nData;
-
-        dsPool.setup (data.dbPoolsize (), data.dbPoolgrow ());
-        dataSource = dsPool.request (data.dbDriver (), data.dbConnect (), data.dbLogin (), data.dbPassword ());
-        jdbcTmpl = new SimpleJdbcTemplate (dataSource);
-        pool = new ArrayList <SimpleJdbcTemplate> ();
+        //todo: store the info if pooling or no in the Data.
+        
+        if (false) {
+        	dsPool = new DBDatasourcePooled ();
+	        dsPool.setup (data.dbPoolsize (), data.dbPoolgrow ());
+	        dataSource = dsPool.request (data.dbDriver (), data.dbConnect (), data.dbLogin (), data.dbPassword ());
+	        jdbcTmpl = new SimpleJdbcTemplate (dataSource);
+	        pool = new ArrayList <SimpleJdbcTemplate> ();
+        }
+        else{
+        	dsNonPool = new DBDatasource();
+        	pool = new ArrayList <SimpleJdbcTemplate> ();
+            dataSource = dsNonPool.request(data.dbDriver(),data.dbConnect(), data.dbLogin(), data.dbPassword());
+        	jdbcTmpl = new SimpleJdbcTemplate (dataSource);
+        }
+        
     }
 
     public void setup () throws Exception {

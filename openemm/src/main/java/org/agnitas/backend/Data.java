@@ -93,6 +93,8 @@ public class Data {
     protected String    dbPassword = null;
     /** database connect expression */
     protected String    dbConnect = null;
+    /** disable pooling if you experience problems with the connection pooling **/
+    protected boolean   dbDisabledPooling = false;
     /** database pool size */
     protected int       dbPoolsize = 12;
     /** database growable pool */
